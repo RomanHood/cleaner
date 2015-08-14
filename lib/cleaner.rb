@@ -1,6 +1,7 @@
 require 'json'
 class Cleaner
   attr_accessor :hash
+
   def initialize(json)
     @hash = case json
             when Hash then json
@@ -8,7 +9,6 @@ class Cleaner
             else
               raise "This isn't valide data!"
             end
-    organize
   end
 
   def purge
@@ -27,24 +27,12 @@ class Cleaner
         end
       end
     end
+    @hash
   end
 
   private
-  
   def keys
     @hash.keys
-  end
-
-  def organize
-    #@keys = hash.keys
-    #keys.each do |k|
-    #  val = @hash[k]
-    #  if val.respond_to?(:delete_if)
-    #    case val
-    #    when Array
-    #    when Hash
-    #    end
-    #  end
   end
 
   def is_collection?(value)
