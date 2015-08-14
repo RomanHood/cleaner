@@ -10,7 +10,13 @@ describe Cleaner do
       :contacts => [
         {
           :wholesaler => "US Foods",
-          :name => "John Lederer"
+          :name => "John Lederer",
+          :whatever => [
+            {
+              :something => "US Foods",
+              :name => "John Lederer"
+            },
+          ]
         },
         {
           :wholesaler => "Sysco",
@@ -43,11 +49,18 @@ describe Cleaner do
   end
 
   describe "#purge" do
+    let(:cleaner) { Cleaner.new(example_data) }
+    let(:purged) { cleaner.purge }
     it "removes duplicate keys from nested hash" do
-      cleaner = Cleaner.new(example_data)
-      purged = cleaner.purge
+      binding.pry
       expect(purged[:contacts][0].keys).not_to include(:wholesaler)
       expect(purged[:contacts][1].keys).not_to include(:wholesaler)
+    end
+
+    it "accumulates unique keys found" do
+      cleaner.purge
+      keys = [:contacts, :delivered, :name, :something, :whatever, :wholesaler]
+      expect(cleaner.unique_keys.sort).to eq(keys)
     end
   end
 end
