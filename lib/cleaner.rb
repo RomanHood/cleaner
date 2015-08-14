@@ -12,24 +12,28 @@ class Cleaner
   end
 
   def purge
-    p = Proc.new do |k,v|
-      if is_collection?(v)
-        v.each do |h|
-          h.delete_if(&p)
-        end
-      end
-      keys.include?(k)
-    end
     @hash.each do |k, v|
       if is_collection?(v)
         v.map do |obj|
-          obj.delete_if(&p)
+          obj.delete_if(&key_exists)
         end
       end
     end
   end
 
   private
+
+  def key_exists
+    Proc.new do |k,v|
+      if is_collection?(v)
+        v.each do |h|
+          h.delete_if(&key_exists)
+        end
+      end
+      keys.include?(k)
+    end
+  end
+
   def keys
     @hash.keys
   end
