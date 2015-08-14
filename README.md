@@ -31,5 +31,7 @@ Or
 rspec spec/lib
 ```
 From inside the project root directory. Either option will work just fine.
+Running this will output documentation to your terminal explaining the functionality
+of what was tested.
 
 The code for this project lives in `<root>/lib/cleaner.rb`
