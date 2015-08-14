@@ -1,7 +1,7 @@
 require 'json'
 
 class Cleaner
-  attr_accessor :hash, :unique_keys
+  attr_accessor :hash
 
   def initialize(json)
     @hash = case json
@@ -10,45 +10,28 @@ class Cleaner
             else
               raise "This isn't valide data!"
             end
-    @unique_keys = []
   end
 
-  #def purge
-  #  @hash.each do |k, v|
-  #    if is_collection?(v)
-  #      v.map do |obj|
-  #        obj.delete_if(&key_exists)
-  #      end
-  #    end
-  #  end
-  #end
-
-  def purge hash = @hash
+  def purge hash = @hash, keys = @hash.keys
     hash.each do |k, v|
-      if @unique_keys.include?(k)
-        hash.delete(k)
-        next
-      else
-        @unique_keys << k
-        if is_collection?(v)
-          v.each do |obj|
-            purge obj
-          end
-        end
-      end
+      @unique_keys << k
+      purge_hashes(v, keys) if is_collection?(v)
     end
   end
 
   private
+  def purge_hashes collection, keys
+    collection.each do |document|
+      ke = key_exists keys
+      document.delete_if(&ke)
+      stacked_keys = keys | document.keys
+      purge document, stacked_keys
+    end
+  end
 
-  def key_exists
+  def key_exists keys
     Proc.new do |k, v|
-      if is_collection?(v)
-        v.each do |h|
-          h.delete_if(&key_exists)
-        end
-      end
-      @unique_keys.include?(k)
+      keys.include?(k)
     end
   end
 
