@@ -59,6 +59,8 @@ PLATFORMS
 DEPENDENCIES
   awesome_print
   guard-rspec
+  pry
+  rspec
 
 BUNDLED WITH
    1.10.6
