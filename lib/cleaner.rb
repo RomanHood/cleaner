@@ -22,12 +22,11 @@ class Cleaner
     end
     @hash.each do |k, v|
       if is_collection?(v)
-        v.each do |obj|
+        v.map do |obj|
           obj.delete_if(&p)
         end
       end
     end
-    @hash
   end
 
   private

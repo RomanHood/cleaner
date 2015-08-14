@@ -45,8 +45,9 @@ describe Cleaner do
   describe "#purge" do
     it "removes duplicate keys from nested hash" do
       cleaner = Cleaner.new(example_data)
-      expect(cleaner.purge[:contacts][0].keys).not_to include(:wholesaler)
-      expect(cleaner.purge[:contacts][1].keys).not_to include(:wholesaler)
+      purged = cleaner.purge
+      expect(purged[:contacts][0].keys).not_to include(:wholesaler)
+      expect(purged[:contacts][1].keys).not_to include(:wholesaler)
     end
   end
 end
