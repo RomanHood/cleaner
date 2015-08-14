@@ -6,6 +6,8 @@ class Cleaner
     @hash = case json
             when Hash then json
             when String then JSON.parse(json)
+            else
+              raise "This isn't valide data!"
             end
   end
 end

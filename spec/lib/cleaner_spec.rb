@@ -34,5 +34,11 @@ describe Cleaner do
         expect(cleaner.hash).to eq(JSON.parse(example_data.to_json))
       end
     end
+
+    context "when passed a different data type" do
+      it "raises an error" do
+        expect{ Cleaner.new(123) }.to raise_error "This isn't valide data!"
+      end
+    end
   end
 end
