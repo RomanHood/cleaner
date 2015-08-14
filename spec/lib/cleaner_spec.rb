@@ -78,9 +78,15 @@ describe Cleaner do
     let(:cleaner) { Cleaner.new(example_data) }
     let(:purged) { cleaner.purge }
     it "removes duplicate keys from nested hash" do
-      binding.pry
       expect(purged[:contacts][1].keys).not_to include(:wholesaler)
       expect(purged[:contacts][0].keys).not_to include(:wholesaler)
+    end
+
+    it "collects unique keys found" do
+      cleaner.purge
+      keys = [:another_layer, :brand_new, :contacts, :delivered, :name,\
+              :new_content, :new_layer, :something, :test, :whatever, :wholesaler]
+      expect(cleaner.unique_keys.sort).to eq(keys)
     end
   end
 end

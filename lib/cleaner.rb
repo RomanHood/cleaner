@@ -1,4 +1,5 @@
 require 'json'
+require 'pp'
 
 class Cleaner
   attr_accessor :hash
@@ -10,6 +11,7 @@ class Cleaner
             else
               raise "This isn't valide data!"
             end
+    @unique_keys = []
   end
 
   def purge hash = @hash, keys = @hash.keys
@@ -17,6 +19,10 @@ class Cleaner
       @unique_keys << k
       purge_hashes(v, keys) if is_collection?(v)
     end
+  end
+
+  def unique_keys
+    @unique_keys.uniq
   end
 
   private
