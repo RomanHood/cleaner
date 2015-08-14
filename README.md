@@ -5,7 +5,7 @@ This repository features a couple different solutions to the challenge.
 First I quickly wrote a little ad-hoc script implementation that satisfied the
 example from your email.
 
-But to ensure the solution contiues to work even with deeper-nested data I chose
+But to ensure the solution continues to work even with deeper-nested data I chose
 to implement a more structured, object-oriented approach.
 
 To download this repository:
