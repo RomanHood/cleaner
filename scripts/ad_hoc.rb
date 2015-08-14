@@ -1,4 +1,5 @@
 require 'pry'
+require 'awesome_print'
 
 def is_collection?(value)
   return false unless value.is_a?(Array)
@@ -39,4 +40,4 @@ data = {
   ]
 }
 clean data
-puts data
+ap data
