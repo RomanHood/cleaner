@@ -8,10 +8,10 @@ class Cleaner
             else
               raise "This isn't valide data!"
             end
+    organize
   end
 
-  def clean
-    keys = @hash.keys
+  def purge
     p = Proc.new do |k,v|
       if is_collection?(v)
         v.each do |h|
@@ -30,6 +30,11 @@ class Cleaner
   end
 
   private
+  
+  def keys
+    @hash.keys
+  end
+
   def organize
     #@keys = hash.keys
     #keys.each do |k|
