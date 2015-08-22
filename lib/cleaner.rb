@@ -7,7 +7,7 @@ class Cleaner
   def initialize(json)
     @hash = case json
             when Hash then json
-            when String then JSON.parse(json)
+            when String then JSON.parse(json, :symbolize_names => true)
             else
               raise "This isn't valide data!"
             end
@@ -26,23 +26,23 @@ class Cleaner
   end
 
   private
-  def purge_hashes collection, keys
-    collection.each do |document|
-      ke = key_exists keys
-      document.delete_if(&ke)
-      stacked_keys = keys | document.keys
-      purge document, stacked_keys
+    def purge_hashes collection, keys
+      collection.each do |document|
+        ke = key_exists keys
+        document.delete_if(&ke)
+        stacked_keys = keys | document.keys
+        purge document, stacked_keys
+      end
     end
-  end
 
-  def key_exists keys
-    Proc.new do |k, v|
-      keys.include?(k)
+    def key_exists keys
+      Proc.new do |k, v|
+        keys.include?(k)
+      end
     end
-  end
 
-  def is_collection?(value)
-    return false unless value.is_a?(Array)
-    value.all?{ |x| x.is_a?(Hash) }
-  end
+    def is_collection?(value)
+      return false unless value.is_a?(Array)
+      value.all?{ |x| x.is_a?(Hash) }
+    end
 end

@@ -63,7 +63,7 @@ describe Cleaner do
     context "when passed a json string" do
       let(:cleaner) { Cleaner.new(example_data.to_json)}
       it "parses the json and saves the hash" do
-        expect(cleaner.hash).to eq(JSON.parse(example_data.to_json))
+        expect(cleaner.hash).to eq(example_data)
       end
     end
 
@@ -85,7 +85,8 @@ describe Cleaner do
     it "collects unique keys found" do
       cleaner.purge
       keys = [:another_layer, :brand_new, :contacts, :delivered, :name,\
-              :new_content, :new_layer, :something, :test, :whatever, :wholesaler]
+              :new_content, :new_layer, :something, :test, :whatever,\
+              :wholesaler]
       expect(cleaner.unique_keys.sort).to eq(keys)
     end
   end
